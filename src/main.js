@@ -11,6 +11,12 @@ import Api from './api/index.js'
 import Utils from './utils/index.js'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import VueResource from 'vue-resource'
+Vue.use(VueResource);
+Vue.http.options.emulateJSON = true;
+Vue.http.options.headers = {
+  'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+};
 
 Vue.prototype.$utils = Utils;
 Vue.prototype.$api = Api;

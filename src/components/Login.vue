@@ -70,30 +70,17 @@
             }
             const userName = self.ruleForm.username;
             const password = self.ruleForm.password;
-            debugger;
-            $.ajax({
-              url : 'http://localhost:8081/login/login',
-              type : 'post',
-              data : {
-                userName : userName,
-                password : password
-              },
-
-              success : function(data) {
-                debugger;
-                var result = data.result;
-                if(result == 'true' || result == true){
-                  alert("登录成功");
-                }else {
-                  alert("登录失败");
-                }
-              },
-              error : function(data) {
-                alert(data);
-              },
-              dataType : 'json',
+            // debugger;
+            // var formData = JSON.stringify({userName: userName, password: password}); // 这里才是你的表单数据
+            var param = {userName: userName, password: password};
+            this.$http.post('/api/login/login', param).then((response) => {
+              // success callback
+              console.log(response.data);
+            }, (response) => {
+              console.log("error");
+              // error callback
             });
-            alert('登录成功!');
+
             if (self.ruleForm.username == 'superadmin' && self.ruleForm.password == '123456') {
               sessionStorage.setItem('user', self.ruleForm.username);
               this.$router.push({path: '/'});
