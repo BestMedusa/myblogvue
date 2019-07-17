@@ -1,13 +1,15 @@
 <template>
-  <el-container>
-    <el-header class="header" height="100px">
-      <h3>我的网站</h3>
-      <p>Vue小模块之用户登录功能</p>
-    </el-header>
-    <el-main>
-      <router-view/>
-    </el-main>
-  </el-container>
+  <div class="img1">
+    <el-container>
+      <el-header class="header" height="100px">
+        <h3>Vue学习</h3>
+        <p>用户登录功能</p>
+      </el-header>
+      <el-main>
+        <router-view/>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script>
@@ -17,10 +19,17 @@
 </script>
 
 <style>
-  .header{
-    background-color: #409EFF;
-    color: white;
+  .img1{
+    background: url("./assets/back.jpg");
+    background-size: 100% 100%;
+    height: 100%;
+    position: fixed;
+    width: 100%
   }
+  /*.header {*/
+  /*  background-color: #409EFF;*/
+  /*  color: white;*/
+  /*}*/
 </style>
 
 
