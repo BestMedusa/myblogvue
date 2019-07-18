@@ -9,8 +9,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Login',
-      component: Login
+      name: 'LoginTest',
+      component: LoginTest
     },{
       path: '/Home',
       name:'Home',

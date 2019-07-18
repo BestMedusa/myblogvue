@@ -1,30 +1,29 @@
 <template>
-  <div class="login">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="50px" class="demo-ruleForm">
+  <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left"
+           label-width="60px" class="login-container" v-loading="loading">
+    <h3 class="login_title">系统登录</h3>
 
-      <el-form-item label="账号" prop="username">
-        <el-input v-model="ruleForm.username" autocomplete="on"></el-input>
-      </el-form-item>
+    <el-form-item label="账号" prop="username">
+      <el-input v-model="loginForm.username" autocomplete="on"></el-input>
+    </el-form-item>
 
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password" autocomplete="on"></el-input>
-      </el-form-item>
+    <el-form-item label="密码" prop="password">
+      <el-input type="password" v-model="loginForm.password" autocomplete="on"></el-input>
+    </el-form-item>
 
-      <div class="box clearfix">
+    <div class="box clearfix">
         <span class="lf" @click="clearCookie"
               style="cursor: pointer;color: #f19149;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
-        <div class="rt">
-          <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
-        </div>
+      <div class="rt">
+        <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
       </div>
+    </div>
 
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')" style="width:100%;">登录</el-button>
-        <!--  <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-      </el-form-item>
-    </el-form>
-  </div>
-
+    <el-form-item>
+      <el-button type="primary" @click="submitForm('loginForm')" style="width:100%;">登录</el-button>
+<!--        <el-button @click="resetForm('loginForm')">重置</el-button>-->
+    </el-form-item>
+  </el-form>
 
 </template>
 
@@ -32,7 +31,7 @@
   export default {
     data() {
       return {
-        ruleForm: {
+        loginForm: {
           username: 'superadmin',
           password: '123456'
         },
@@ -59,17 +58,18 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const self = this;
+            debugger
             //判断复选框是否被勾选 勾选则调用配置cookie方法
             if (self.checked == true) {
               //传入账号名，密码，和保存天数3个参数
-              self.setCookie(self.ruleForm.username, self.ruleForm.password, 7);
+              self.setCookie(self.loginForm.username, self.loginForm.password, 7);
             } else {
               console.log("清空Cookie");
               //清空Cookie
               self.clearCookie();
             }
-            const userName = self.ruleForm.username;
-            const password = self.ruleForm.password;
+            const userName = self.loginForm.username;
+            const password = self.loginForm.password;
             // debugger;
             var param = {userName: userName, password: password};
             //json传参 后端@requestBody对象
@@ -78,17 +78,18 @@
             //     'Content-Type':'application/json;charset=UTF-8'
             //   }
             // }).then((response) => {
-            this.$http.post('/api/login/login', param).then((response) => {
+            this.$http.post('/login/login', param).then((response) => {
               debugger;
               console.log(response.data);
               if (response.data.code == 2000) {
-                sessionStorage.setItem('user', self.ruleForm.username);
+                sessionStorage.setItem('user', self.loginForm.username);
+                // self.$router.replace({path: '/home'});
                 this.$router.push({
                   name: 'Home',
-                  params: {userName: self.ruleForm.username, password: self.ruleForm.password}
+                  params: {userName: self.loginForm.username, password: self.loginForm.password}
                 });
-              }else{
-                alert("账号或密码错误");
+              } else {
+                self.$alert('登录失败!', '用户名或密码错误!');
               }
             }, (response) => {
               // console.log("error");
@@ -117,10 +118,10 @@
             //判断查找相对应的值
             if (arr2[0] == 'userName') {
               //  console.log(arr2[1])
-              this.ruleForm.username = arr2[1]; //保存到保存数据的地方
+              this.loginForm.username = arr2[1]; //保存到保存数据的地方
             } else if (arr2[0] == 'password') {
               // console.log(arr2[1])
-              this.ruleForm.password = arr2[1];
+              this.loginForm.password = arr2[1];
             }
           }
           this.checked = true;
@@ -166,5 +167,26 @@
 
   .clearfix {
     *zoom: 1;
+  }
+  .login-container {
+    border-radius: 15px;
+    background-clip: padding-box;
+    margin: 180px auto;
+    width: 350px;
+    padding: 35px 35px 15px 35px;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 0 25px #cac6c6;
+  }
+
+  .login_title {
+    margin: 0px auto 30px auto;
+    text-align: center;
+    color: #505458;
+  }
+
+  .login_remember {
+    margin: 0px 0px 35px 0px;
+    text-align: left;
   }
 </style>

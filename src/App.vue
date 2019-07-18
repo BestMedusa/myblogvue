@@ -1,10 +1,10 @@
 <template>
   <div class="img1">
     <el-container>
-      <el-header class="header" height="100px">
-        <h3>Vue学习</h3>
-        <p>用户登录功能</p>
-      </el-header>
+<!--      <el-header class="header" height="10px">-->
+<!--        <h3>Vue学习</h3>-->
+<!--        <p>用户登录</p>-->
+<!--      </el-header>-->
       <el-main>
         <router-view/>
       </el-main>
