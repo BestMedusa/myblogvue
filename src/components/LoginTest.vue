@@ -1,6 +1,6 @@
 <template>
   <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left"
-           label-width="60px" class="login-container" v-loading="loading">
+           label-width="60px" class="login-container">
     <h3 class="login_title">系统登录</h3>
 
     <el-form-item label="账号" prop="username">
@@ -58,7 +58,6 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const self = this;
-            debugger
             //判断复选框是否被勾选 勾选则调用配置cookie方法
             if (self.checked == true) {
               //传入账号名，密码，和保存天数3个参数
@@ -68,10 +67,7 @@
               //清空Cookie
               self.clearCookie();
             }
-            const userName = self.loginForm.username;
-            const password = self.loginForm.password;
-            // debugger;
-            var param = {userName: userName, password: password};
+            var param = {userName: self.loginForm.username, password: self.loginForm.password};
             //json传参 后端@requestBody对象
             // this.$http.post('/api/login/login', JSON.stringify(param),{
             //   headers: {
@@ -79,15 +75,14 @@
             //   }
             // }).then((response) => {
             this.$http.post('/login/login', param).then((response) => {
-              debugger;
               console.log(response.data);
               if (response.data.code == 2000) {
                 sessionStorage.setItem('user', self.loginForm.username);
-                // self.$router.replace({path: '/home'});
-                this.$router.push({
-                  name: 'Home',
-                  params: {userName: self.loginForm.username, password: self.loginForm.password}
-                });
+                this.$router.push({path: 'home',query: {user: response.data.datas.item}});
+                // this.$router.push({
+                //   name: '/home',
+                //   params: {userName: self.loginForm.username, password: self.loginForm.password}
+                // });
               } else {
                 self.$alert('登录失败!', '用户名或密码错误!');
               }
