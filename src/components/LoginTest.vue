@@ -84,9 +84,11 @@
                 //   params: {userName: self.loginForm.username, password: self.loginForm.password}
                 // });
               } else {
-                self.$alert('登录失败!', '用户名或密码错误!');
+                self.$alert('用户名或密码错误!', '登录失败!');
               }
             }, (response) => {
+              self.loading = false;
+              self.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
               // console.log("error");
               // error callback
             });

@@ -5,7 +5,7 @@
       <div class="home_userinfoContainer">
         <el-dropdown @command="handleCommand">
   <span class="el-dropdown-link home_userinfo">
-    {{this.$route.query.user.userName}}<i class="el-icon-arrow-down el-icon--right home_userinfo"></i>
+    <!--{{this.$route.query.user.userName}}-->{{currentUserName}}<i class="el-icon-arrow-down el-icon--right home_userinfo"></i>
   </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="sysMsg">系统消息</el-dropdown-item>
@@ -56,7 +56,7 @@
   </el-container>
 </template>
 <script>
-  import {postRequest} from '../api/api'
+  import {postRequest} from '../utils/api'
   export default{
     methods: {
       handleCommand(command){
@@ -82,7 +82,8 @@
       //   callback: action => {
       //   }
       // });
-      // var _this = this;
+      var _this = this;
+      _this.currentUserName = this.$route.query.user.userName;
       // getRequest("/currentUserName").then(function (result) {
       //   _this.currentUserName = result.data;
       // }, function (msg) {
