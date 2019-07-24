@@ -61,12 +61,13 @@
   export default{
     methods: {
       addNewCate(){
+        debugger
         this.loading = true;
         var _this = this;
         postRequest('/category/add', {cateName: this.cateName}).then(resp=> {
           if (resp.status == 200) {
             var json = resp.data;
-            _this.$message({type: json.status, message: json.msg});
+            _this.$message({type: 'success', message: '添加成功'});
             _this.cateName = '';
             _this.refresh();
           }
@@ -178,6 +179,7 @@
       refresh(){
         let _this = this;
         getRequest("/category/all").then(resp=> {
+          debugger;
           _this.categories = resp.data.datas.items;
           _this.loading = false;
         }, resp=> {
@@ -193,9 +195,12 @@
     },
     mounted: function () {
       this.loading = true;
-      this.refresh();
+      debugger
+      // this.refresh();
+      this.loading = false;
     },
     data(){
+      debugger
       return {
         cateName: '',
         selItems: [],
