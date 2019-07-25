@@ -9,9 +9,9 @@
         <router-view/>
       </el-main>
     </el-container>
-    <el-main>
-      <router-view/>
-    </el-main>
+<!--    <el-main>-->
+<!--      <router-view/>-->
+<!--    </el-main>-->
   </div>
 </template>
 

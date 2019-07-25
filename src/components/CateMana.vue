@@ -61,13 +61,16 @@
   export default{
     methods: {
       addNewCate(){
-        debugger
         this.loading = true;
         var _this = this;
         postRequest('/category/add', {cateName: this.cateName}).then(resp=> {
           if (resp.status == 200) {
             var json = resp.data;
-            _this.$message({type: 'success', message: '添加成功'});
+            if (json.isSuccess) {
+              _this.$message({type: 'success', message: '添加成功'});
+            } else {
+              _this.$message({type: 'error', message: '请输入栏目名'});
+            }
             _this.cateName = '';
             _this.refresh();
           }
@@ -118,12 +121,13 @@
             });
           } else {
             _this.loading = true;
-            putRequest("/admin/category/", {id: row.id, cateName: value}).then(resp=> {
+            putRequest("/category/", {id: row.id, cateName: value}).then(resp=> {
               var json = resp.data;
-              _this.$message({
-                type: json.status,
-                message: json.msg
-              });
+              if (json.isSuccess) {
+                _this.$message({type: 'success', message: '修改成功'});
+              } else {
+                _this.$message({type: 'error', message: '修改失败'});
+              }
               _this.refresh();
             }, resp=> {
               if (resp.response.status == 403) {
@@ -154,12 +158,13 @@
         var _this = this;
         this.loading = true;
         //删除
-        deleteRequest("/admin/category/" + ids).then(resp=> {
+        deleteRequest("/category/" + ids).then(resp=> {
           var json = resp.data;
-          _this.$message({
-            type: json.status,
-            message: json.msg
-          });
+          if (json.isSuccess) {
+            _this.$message({type: 'success', message: '删除成功成功'});
+          } else {
+            _this.$message({type: 'error', message: '删除失败'});
+          }
           _this.refresh();
         }, resp=> {
           _this.loading = false;
@@ -179,7 +184,6 @@
       refresh(){
         let _this = this;
         getRequest("/category/all").then(resp=> {
-          debugger;
           _this.categories = resp.data.datas.items;
           _this.loading = false;
         }, resp=> {
@@ -195,12 +199,9 @@
     },
     mounted: function () {
       this.loading = true;
-      debugger
-      // this.refresh();
-      this.loading = false;
+      this.refresh();
     },
     data(){
-      debugger
       return {
         cateName: '',
         selItems: [],
