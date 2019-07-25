@@ -184,7 +184,7 @@
       refresh(){
         let _this = this;
         getRequest("/category/all").then(resp=> {
-          _this.categories = resp.data.datas.items;
+          _this.categories = resp.data.datas.page.list;
           _this.loading = false;
         }, resp=> {
           if (resp.response.status == 403) {
