@@ -50,20 +50,75 @@
       <el-button type="danger" :disabled="this.selItems.length==0" style="margin-top: 10px;width: 100px;"
                  @click="deleteAll" v-if="this.categories.length>0">批量删除
       </el-button>
+      <template>
+        <div class="pager">
+          <select style="/*font-size: 14px;*/position: relative;padding: 6px 12px;" v-model="pageSize" @change="pageChange(currentPage)">
+            <option v-for="item in pageSizes" :value="item">{{item}}条/页</option>
+          </select>
+          <mo-paging
+            :page-index="currentPage"
+            :total="count"
+            :page-size="pageSize"
+            @change="pageChange">
+          </mo-paging>
+        </div>
+      </template>
     </el-main>
   </el-container>
 </template>
+
 <script>
   import {postRequest} from '../utils/api'
   import {putRequest} from '../utils/api'
   import {deleteRequest} from '../utils/api'
   import {getRequest} from '../utils/api'
-  export default{
+  import MoPaging from '../utils/paging'
+
+  export default {
+    components: {
+      MoPaging
+    },
+    data() {
+      return {
+        pageSize: 2, //每页显示20条数据
+        currentPage: 1, //当前页码
+        count: 0, //总记录数
+        items: [],
+        cateName: '',
+        pageSizes: [1,2,3,4],
+        selItems: [],
+        categories: [],
+        loading: false
+      }
+    },
     methods: {
-      addNewCate(){
+      //获取数据
+      getList() {
+        //模拟
+        let _this = this;
+        debugger
+        let url = `/category/all?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
+        getRequest(url).then(resp => {
+          // this.$http.get(url)
+          //   .then(({resp}) => {
+
+          debugger;
+          //子组件监听到count变化会自动更新DOM
+          _this.count = resp.data.datas.page.total;
+          _this.categories = resp.data.datas.page.list;
+          _this.items = resp.data.datas.page.list
+        })
+      },
+
+      //从page组件传递过来的当前page
+      pageChange(page) {
+        this.currentPage = page;
+        this.getList()
+      },
+      addNewCate() {
         this.loading = true;
         var _this = this;
-        postRequest('/category/add', {cateName: this.cateName}).then(resp=> {
+        postRequest('/category/add', {cateName: this.cateName}).then(resp => {
           if (resp.status == 200) {
             var json = resp.data;
             if (json.isSuccess) {
@@ -75,7 +130,7 @@
             _this.refresh();
           }
           _this.loading = false;
-        }, resp=> {
+        }, resp => {
           if (resp.response.status == 403) {
             _this.$message({
               type: 'error',
@@ -85,13 +140,13 @@
           _this.loading = false;
         });
       },
-      deleteAll(){
+      deleteAll() {
         var _this = this;
         this.$confirm('确认删除这 ' + this.selItems.length + ' 条数据?', '提示', {
           type: 'warning',
           confirmButtonText: '确定',
           cancelButtonText: '取消'
-        }).then(()=> {
+        }).then(() => {
           var selItems = _this.selItems;
           var ids = '';
           for (var i = 0; i < selItems.length; i++) {
@@ -106,7 +161,7 @@
       handleSelectionChange(val) {
         this.selItems = val;
       },
-      handleEdit(index, row){
+      handleEdit(index, row) {
         var _this = this;
         this.$prompt('请输入新名称', '编辑', {
           confirmButtonText: '更新',
@@ -121,7 +176,7 @@
             });
           } else {
             _this.loading = true;
-            putRequest("/category/", {id: row.id, cateName: value}).then(resp=> {
+            putRequest("/category/", {id: row.id, cateName: value}).then(resp => {
               var json = resp.data;
               if (json.isSuccess) {
                 _this.$message({type: 'success', message: '修改成功'});
@@ -129,7 +184,7 @@
                 _this.$message({type: 'error', message: '修改失败'});
               }
               _this.refresh();
-            }, resp=> {
+            }, resp => {
               if (resp.response.status == 403) {
                 _this.$message({
                   type: 'error',
@@ -141,7 +196,7 @@
           }
         });
       },
-      handleDelete(index, row){
+      handleDelete(index, row) {
         let _this = this;
         this.$confirm('确认删除 ' + row.cateName + ' ?', '提示', {
           confirmButtonText: '确定',
@@ -154,19 +209,19 @@
           _this.loading = false;
         });
       },
-      deleteCate(ids){
+      deleteCate(ids) {
         var _this = this;
         this.loading = true;
         //删除
-        deleteRequest("/category/" + ids).then(resp=> {
+        deleteRequest("/category/" + ids).then(resp => {
           var json = resp.data;
           if (json.isSuccess) {
-            _this.$message({type: 'success', message: '删除成功成功'});
+            _this.$message({type: 'success', message: '删除成功'});
           } else {
             _this.$message({type: 'error', message: '删除失败'});
           }
           _this.refresh();
-        }, resp=> {
+        }, resp => {
           _this.loading = false;
           if (resp.response.status == 403) {
             _this.$message({
@@ -181,12 +236,12 @@
           }
         })
       },
-      refresh(){
+      refresh() {
         let _this = this;
-        getRequest("/category/all").then(resp=> {
+        getRequest("/category/all").then(resp => {
           _this.categories = resp.data.datas.page.list;
           _this.loading = false;
-        }, resp=> {
+        }, resp => {
           if (resp.response.status == 403) {
             _this.$message({
               type: 'error',
@@ -199,16 +254,11 @@
     },
     mounted: function () {
       this.loading = true;
-      this.refresh();
-    },
-    data(){
-      return {
-        cateName: '',
-        selItems: [],
-        categories: [],
-        loading: false
-      }
+      this.getList();
+      this.loading = false
+      // this.refresh();
     }
+
   }
 </script>
 <style>

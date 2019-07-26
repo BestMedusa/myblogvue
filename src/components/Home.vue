@@ -57,6 +57,7 @@
 </template>
 <script>
   import {postRequest} from '../utils/api'
+  import {getRequest} from '../utils/api'
   export default{
     methods: {
       handleCommand(command){
@@ -83,12 +84,11 @@
       //   }
       // });
       var _this = this;
-      _this.currentUserName = this.$route.query.user.userName;
-      // getRequest("/currentUserName").then(function (result) {
-      //   _this.currentUserName = result.data;
-      // }, function (msg) {
-      //   _this.currentUserName = '游客';
-      // });
+      getRequest("/user/currentUserName").then(function (result) {
+        _this.currentUserName = result.data;
+      }, function (msg) {
+        _this.currentUserName = '游客';
+      });
     },
     data(){
       return {
