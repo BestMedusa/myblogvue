@@ -58,6 +58,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const self = this;
+            self.loading = true;
             //判断复选框是否被勾选 勾选则调用配置cookie方法
             if (self.checked == true) {
               //传入账号名，密码，和保存天数3个参数
@@ -86,6 +87,7 @@
               } else {
                 self.$alert('用户名或密码错误!', '登录失败!');
               }
+              self.loading = false;
             }, (response) => {
               self.loading = false;
               self.$alert('找不到服务器⊙﹏⊙∥!', '失败!');

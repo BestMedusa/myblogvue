@@ -96,13 +96,11 @@
       getList() {
         //模拟
         let _this = this;
-        debugger
         let url = `/category/all?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
         getRequest(url).then(resp => {
           // this.$http.get(url)
           //   .then(({resp}) => {
 
-          debugger;
           //子组件监听到count变化会自动更新DOM
           _this.count = resp.data.datas.page.total;
           _this.categories = resp.data.datas.page.list;
