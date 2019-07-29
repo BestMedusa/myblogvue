@@ -140,7 +140,7 @@
         }).then(() => {
           _this.loading = true;
           deleteRequest("/admin/user/" + id).then(resp=> {
-            if (resp.status == 200 && resp.data.isSuccess) {
+            if (resp.status == 200 && resp.data.code == 2000) {
               _this.$message({type: 'success', message: '删除成功!'})
               _this.loadUserList();
               return;

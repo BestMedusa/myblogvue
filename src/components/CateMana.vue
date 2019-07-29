@@ -119,7 +119,7 @@
         postRequest('/category/add', {cateName: this.cateName}).then(resp => {
           if (resp.status == 200) {
             var json = resp.data;
-            if (json.isSuccess) {
+            if (json.code == 2000) {
               _this.$message({type: 'success', message: '添加成功'});
             } else {
               _this.$message({type: 'error', message: '请输入栏目名'});
@@ -176,7 +176,7 @@
             _this.loading = true;
             putRequest("/category/", {id: row.id, cateName: value}).then(resp => {
               var json = resp.data;
-              if (json.isSuccess) {
+              if (json.code == 2000) {
                 _this.$message({type: 'success', message: '修改成功'});
               } else {
                 _this.$message({type: 'error', message: '修改失败'});
@@ -213,7 +213,7 @@
         //删除
         deleteRequest("/category/" + ids).then(resp => {
           var json = resp.data;
-          if (json.isSuccess) {
+          if (json.code == 2000) {
             _this.$message({type: 'success', message: '删除成功'});
           } else {
             _this.$message({type: 'error', message: '删除失败'});
