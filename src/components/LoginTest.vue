@@ -79,7 +79,7 @@
               console.log(response.data);
               if (response.data.code == 2000) {
                 sessionStorage.setItem('user', self.loginForm.username);
-                this.$router.push({path: 'home',query: {user: response.data.datas.item}});
+                this.$router.push({path: 'home',query: {user: response.data.data}});
                 // this.$router.push({
                 //   name: '/home',
                 //   params: {userName: self.loginForm.username, password: self.loginForm.password}

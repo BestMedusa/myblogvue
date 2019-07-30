@@ -215,7 +215,7 @@
           _this.loading = false;
           if (resp.status == 200) {
             debugger
-            _this.users = resp.data.datas.items;
+            _this.users = resp.data.data;
           } else {
             _this.$message({type: 'error', message: '数据加载失败!'});
           }

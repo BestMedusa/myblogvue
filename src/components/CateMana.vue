@@ -102,9 +102,9 @@
           //   .then(({resp}) => {
 
           //子组件监听到count变化会自动更新DOM
-          _this.count = resp.data.datas.page.total;
-          _this.categories = resp.data.datas.page.list;
-          _this.items = resp.data.datas.page.list
+          _this.count = resp.data.data.total;
+          _this.categories = resp.data.data.list;
+          _this.items = resp.data.data.list
         })
       },
 
@@ -237,7 +237,7 @@
       refresh() {
         let _this = this;
         getRequest("/category/all").then(resp => {
-          _this.categories = resp.data.datas.page.list;
+          _this.categories = resp.data.data.list;
           _this.loading = false;
         }, resp => {
           if (resp.response.status == 403) {

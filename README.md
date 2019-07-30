@@ -3,7 +3,7 @@
 > A Vue.js project
 
 ## Build Setup
-
+know and observe all but stay obscure
 ``` bash
 # install dependencies
 npm install
