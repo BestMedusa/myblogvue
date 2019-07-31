@@ -39,10 +39,10 @@
       </el-table-column>
       <el-table-column
         label="最近编辑时间" width="140" align="left">
-        <template slot-scope="scope">{{ scope.row.editTime | formatDateTime}}</template>
+        <template slot-scope="scope">{{ scope.row.updateTime | formatDateTime}}</template>
       </el-table-column>
       <el-table-column
-        prop="nickname"
+        prop="author"
         label="作者"
         width="120" align="left">
       </el-table-column>
@@ -83,18 +83,21 @@
 <script>
   import {putRequest} from '../utils/api'
   import {getRequest} from '../utils/api'
-//  import Vue from 'vue'
-//  var bus = new Vue()
+ // import Vue from 'vue'
+ // var bus = new Vue()
 
   export default{
     data() {
       return {
+        pageSize: 10, //每页显示20条数据
+        currentPage: 1, //当前页码
+        count: 0, //总记录数
+        items: [],
+        pageSizes: [5,10,20],
         articles: [],
         selItems: [],
         loading: false,
-        currentPage: 1,
         totalCount: -1,
-        pageSize: 6,
         keywords: '',
         dustbinData: []
       }
@@ -132,16 +135,25 @@
       loadBlogs(page, count){
         var _this = this;
         var url = '';
-        if (this.state == -2) {
-          url = "/admin/article/all" + "?page=" + page + "&count=" + count + "&keywords=" + this.keywords;
-        } else {
-          url = "/article/all?state=" + this.state + "&page=" + page + "&count=" + count + "&keywords=" + this.keywords;
-        }
+        debugger
+        // if (this.state == -2) {
+        //   url = "/article/all" + "?page=" + page + "&count=" + count + "&keywords=" + this.keywords;
+        // } else {
+        //   url = "/article/all?state=" + this.state + "&page=" + page + "&count=" + count + "&keywords=" + this.keywords;
+        // }
+        url = `/article/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
         getRequest(url).then(resp=> {
+          debugger
           _this.loading = false;
           if (resp.status == 200) {
-            _this.articles = resp.data.articles;
-            _this.totalCount = resp.data.totalCount;
+            if (resp.data.code == '2000'){
+              debugger
+              _this.count = resp.data.data.total;
+              // _this.categories = resp.data.data.list;
+              // _this.items = resp.data.data.list
+              _this.articles = resp.data.data.list;
+              // _this.totalCount = resp.data.totalCount;
+            }
           } else {
             _this.$message({type: 'error', message: '数据加载失败!'});
           }

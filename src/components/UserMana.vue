@@ -214,8 +214,12 @@
         getRequest("/admin/getUserAll?nickname="+this.keywords).then(resp=> {
           _this.loading = false;
           if (resp.status == 200) {
-            debugger
-            _this.users = resp.data.data;
+            if ('2000' == resp.data.code){
+              _this.users = resp.data.data;
+            } else {
+              _this.$message({type: 'error', message: '请登录!'});
+            }
+
           } else {
             _this.$message({type: 'error', message: '数据加载失败!'});
           }

@@ -80,12 +80,12 @@
     },
     data() {
       return {
-        pageSize: 2, //每页显示20条数据
+        pageSize: 5, //每页显示20条数据
         currentPage: 1, //当前页码
         count: 0, //总记录数
         items: [],
+        pageSizes: [5,10,20],
         cateName: '',
-        pageSizes: [1,2,3,4],
         selItems: [],
         categories: [],
         loading: false
@@ -96,7 +96,7 @@
       getList() {
         //模拟
         let _this = this;
-        let url = `/category/all?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
+        let url = `/category/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
         getRequest(url).then(resp => {
           // this.$http.get(url)
           //   .then(({resp}) => {

@@ -101,17 +101,18 @@
         }
         var _this = this;
         _this.loading = true;
-        postRequest("/article/", {
-          id: _this.article.id,
+        postRequest("/article/save", {
+          // id: _this.article.id,
           title: _this.article.title,
           mdContent: _this.article.mdContent,
-          htmlContent: _this.$refs.md.d_render,
-          cid: _this.article.cid,
-          state: state,
-          dynamicTags: _this.article.dynamicTags
+          content: _this.$refs.md.d_render,
+          articleId: _this.article.cid,
+          author: this.$store.state.currentUser,
+          // state: state,
+          tags: _this.article.dynamicTags
         }).then(resp=> {
           _this.loading = false;
-          if (resp.status == 200 && resp.data.status == 'success') {
+          if (resp.status == 200 && resp.data.code == '2000') {
             _this.article.id = resp.data.msg;
             _this.$message({type: 'success', message: state == 0 ? '保存成功!' : '发布成功!'});
 //            if (_this.from != undefined) {
@@ -146,8 +147,12 @@
       },
       getCategories(){
         let _this = this;
-        getRequest("/admin/category/all").then(resp=> {
-          _this.categories = resp.data;
+        getRequest("/category/all").then(resp=> {
+          if ('2000' == resp.data.code) {
+            _this.categories = resp.data.data;
+          } else {
+            // _this.$message({type: '', message: resp.data.message});
+          }
         });
       },
       handleClose(tag) {
