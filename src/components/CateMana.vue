@@ -31,7 +31,7 @@
         <el-table-column
           prop="date"
           label="启用时间" align="left">
-          <template slot-scope="scope">{{ scope.row.date | formatDate}}</template>
+          <template slot-scope="scope">{{ scope.row.createTime | formatDate}}</template>
         </el-table-column>
         <el-table-column label="操作" align="left">
           <template slot-scope="scope">
@@ -80,11 +80,11 @@
     },
     data() {
       return {
-        pageSize: 5, //每页显示20条数据
+        pageSize: 3, //每页显示5条数据
         currentPage: 1, //当前页码
         count: 0, //总记录数
         items: [],
-        pageSizes: [5,10,20],
+        pageSizes: [1,3,5],
         cateName: '',
         selItems: [],
         categories: [],
@@ -236,18 +236,19 @@
       },
       refresh() {
         let _this = this;
-        getRequest("/api/category/all").then(resp => {
-          _this.categories = resp.data.data.rows;
-          _this.loading = false;
-        }, resp => {
-          if (resp.response.status == 403) {
-            _this.$message({
-              type: 'error',
-              message: resp.response.data
-            });
-          }
-          _this.loading = false;
-        });
+        _this.getList();
+        // getRequest("/api/category/all").then(resp => {
+        //   _this.categories = resp.data.data.rows;
+        //   _this.loading = false;
+        // }, resp => {
+        //   if (resp.response.status == 403) {
+        //     _this.$message({
+        //       type: 'error',
+        //       message: resp.response.data
+        //     });
+        //   }
+        //   _this.loading = false;
+        // });
       }
     },
     mounted: function () {

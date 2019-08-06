@@ -89,11 +89,11 @@
   export default{
     data() {
       return {
-        pageSize: 10, //每页显示20条数据
+        pageSize: 3, //每页显示20条数据
         currentPage: 1, //当前页码
         count: 0, //总记录数
         items: [],
-        pageSizes: [5,10,20],
+        pageSizes: [1,3,5],
         articles: [],
         selItems: [],
         loading: false,
