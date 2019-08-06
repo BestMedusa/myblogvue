@@ -69,7 +69,7 @@
         var id = this.$route.query.id;
         this.id = id;
         this.loading = true;
-        getRequest("/article/" + id).then(resp=> {
+        getRequest("/api/article/" + id).then(resp=> {
           _this.loading = false;
           if (resp.status == 200) {
             _this.article = resp.data;
@@ -101,7 +101,7 @@
         }
         var _this = this;
         _this.loading = true;
-        postRequest("/article/save", {
+        postRequest("/api/article/save", {
           // id: _this.article.id,
           title: _this.article.title,
           mdContent: _this.article.mdContent,
@@ -119,7 +119,7 @@
             window.bus.$emit('blogTableReload')
 //            }
             if (state == 1) {
-              _this.$router.replace({path: '/articleList'});
+              _this.$router.replace({path: '/api/articleList'});
             }
           }
         }, resp=> {
@@ -132,7 +132,7 @@
         // 第一步.将图片上传到服务器.
         var formdata = new FormData();
         formdata.append('image', $file);
-        uploadFileRequest("/article/uploadimg", formdata).then(resp=> {
+        uploadFileRequest("/api/article/uploadimg", formdata).then(resp=> {
           var json = resp.data;
           if (json.status == 'success') {
 //            _this.$refs.md.$imgUpdateByUrl(pos, json.msg)
@@ -147,7 +147,7 @@
       },
       getCategories(){
         let _this = this;
-        getRequest("/category/all").then(resp=> {
+        getRequest("/api/category/all").then(resp=> {
           if ('2000' == resp.data.code) {
             _this.categories = resp.data.data;
           } else {

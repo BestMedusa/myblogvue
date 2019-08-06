@@ -141,17 +141,16 @@
         // } else {
         //   url = "/article/all?state=" + this.state + "&page=" + page + "&count=" + count + "&keywords=" + this.keywords;
         // }
-        url = `/article/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
+        url = `/api/article/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}&keywords=this.keywords`;
         getRequest(url).then(resp=> {
           debugger
           _this.loading = false;
           if (resp.status == 200) {
             if (resp.data.code == '2000'){
-              debugger
               _this.count = resp.data.data.total;
-              // _this.categories = resp.data.data.list;
-              // _this.items = resp.data.data.list
-              _this.articles = resp.data.data.list;
+              // _this.categories = resp.data.data.rows;
+              // _this.items = resp.data.data.rows
+              _this.articles = resp.data.data.rows;
               // _this.totalCount = resp.data.totalCount;
             }
           } else {
@@ -167,7 +166,7 @@
         }).catch(resp=> {
           //压根没见到服务器
           _this.loading = false;
-          _this.$message({type: 'error', message: '数据加载失败!'});
+          _this.$message({type: 'error', message: '未找到服务器!'});
         })
       },
       handleSelectionChange(val) {

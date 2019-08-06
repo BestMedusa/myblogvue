@@ -75,7 +75,7 @@
             //     'Content-Type':'application/json;charset=UTF-8'
             //   }
             // }).then((response) => {
-            this.$http.post('/login/login', param).then((response) => {
+            this.$http.post('/api/login/login', param).then((response) => {
               console.log(response.data);
               if (response.data.code == 2000) {
                 sessionStorage.setItem('userName', response.data.data.userName);

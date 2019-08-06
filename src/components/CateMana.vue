@@ -96,15 +96,15 @@
       getList() {
         //模拟
         let _this = this;
-        let url = `/category/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
+        let url = `/api/category/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}`;
         getRequest(url).then(resp => {
           // this.$http.get(url)
           //   .then(({resp}) => {
 
           //子组件监听到count变化会自动更新DOM
           _this.count = resp.data.data.total;
-          _this.categories = resp.data.data.list;
-          _this.items = resp.data.data.list
+          _this.categories = resp.data.data.rows;
+          _this.items = resp.data.data.rows
         })
       },
 
@@ -116,7 +116,7 @@
       addNewCate() {
         this.loading = true;
         var _this = this;
-        postRequest('/category/add', {cateName: this.cateName}).then(resp => {
+        postRequest('/api/category/add', {cateName: this.cateName}).then(resp => {
           if (resp.status == 200) {
             var json = resp.data;
             if (json.code == 2000) {
@@ -174,7 +174,7 @@
             });
           } else {
             _this.loading = true;
-            putRequest("/category/", {id: row.id, cateName: value}).then(resp => {
+            putRequest("/api/category/", {id: row.id, cateName: value}).then(resp => {
               var json = resp.data;
               if (json.code == 2000) {
                 _this.$message({type: 'success', message: '修改成功'});
@@ -211,7 +211,7 @@
         var _this = this;
         this.loading = true;
         //删除
-        deleteRequest("/category/" + ids).then(resp => {
+        deleteRequest("/api/category/" + ids).then(resp => {
           var json = resp.data;
           if (json.code == 2000) {
             _this.$message({type: 'success', message: '删除成功'});
@@ -236,8 +236,8 @@
       },
       refresh() {
         let _this = this;
-        getRequest("/category/all").then(resp => {
-          _this.categories = resp.data.data.list;
+        getRequest("/api/category/all").then(resp => {
+          _this.categories = resp.data.data.rows;
           _this.loading = false;
         }, resp => {
           if (resp.response.status == 403) {
