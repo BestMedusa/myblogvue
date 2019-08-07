@@ -1,4 +1,4 @@
-<style type="text/css">
+<style type="text/css" xmlns:text-align="http://www.w3.org/1999/xhtml">
   .blog_table_footer {
     display: flex;
     box-sizing: content-box;
@@ -70,13 +70,15 @@
                  :disabled="this.selItems.length==0" @click="deleteMany">批量删除
       </el-button>
       <span></span>
+      <div>
       <el-pagination
         background
         :page-sizes="[1, 3, 5, 7]"
         :page-size="pageSize"
-        layout="prev, pager, next"
+        layout="total, sizes, prev, pager, next, jumper"
         :total="totalCount" @current-change="currentChange" v-show="this.articles.length>0">
       </el-pagination>
+      </div>
     </div>
   </div>
 </template>
