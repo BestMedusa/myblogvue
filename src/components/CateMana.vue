@@ -209,7 +209,7 @@
       },
       deleteCate(ids) {
         var _this = this;
-        this.loading = true;
+        _this.loading = true;
         //删除
         deleteRequest("/api/category/" + ids).then(resp => {
           var json = resp.data;
@@ -219,6 +219,7 @@
             _this.$message({type: 'error', message: '删除失败'});
           }
           _this.refresh();
+          _this.loading = false;
         }, resp => {
           _this.loading = false;
           if (resp.response.status == 403) {

@@ -72,6 +72,7 @@
       <span></span>
       <el-pagination
         background
+        :page-sizes="[1, 3, 5, 7]"
         :page-size="pageSize"
         layout="prev, pager, next"
         :total="totalCount" @current-change="currentChange" v-show="this.articles.length>0">
@@ -151,7 +152,7 @@
               // _this.categories = resp.data.data.rows;
               // _this.items = resp.data.data.rows
               _this.articles = resp.data.data.rows;
-              // _this.totalCount = resp.data.totalCount;
+              _this.totalCount = resp.data.data.total;
             }
           } else {
             _this.$message({type: 'error', message: '数据加载失败!'});

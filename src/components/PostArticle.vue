@@ -113,14 +113,13 @@
         }).then(resp=> {
           _this.loading = false;
           if (resp.status == 200 && resp.data.code == '2000') {
+            debugger
             _this.article.id = resp.data.msg;
             _this.$message({type: 'success', message: state == 0 ? '保存成功!' : '发布成功!'});
-//            if (_this.from != undefined) {
+           if (_this.from != undefined) {
             window.bus.$emit('blogTableReload')
-//            }
-            if (state == 1) {
-              _this.$router.replace({path: '/api/articleList'});
-            }
+           }
+            _this.$router.replace({path: '/articleList'});
           }
         }, resp=> {
           _this.loading = false;
