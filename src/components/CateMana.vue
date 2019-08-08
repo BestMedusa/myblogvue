@@ -174,7 +174,7 @@
             });
           } else {
             _this.loading = true;
-            putRequest("/api/category/", {id: row.id, cateName: value}).then(resp => {
+            postRequest("/api/category/update", {id: row.id, cateName: value}).then(resp => {
               var json = resp.data;
               if (json.code == 2000) {
                 _this.$message({type: 'success', message: '修改成功'});
@@ -182,6 +182,7 @@
                 _this.$message({type: 'error', message: '修改失败'});
               }
               _this.refresh();
+              _this.loading = false;
             }, resp => {
               if (resp.response.status == 403) {
                 _this.$message({
