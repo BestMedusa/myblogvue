@@ -104,7 +104,7 @@
         var _this = this;
         _this.loading = true;
         postRequest("/api/article/save", {
-          // id: _this.article.id,
+          id: _this.article.id,
           title: _this.article.title,
           mdContent: _this.article.mdContent,
           content: _this.$refs.md.d_render,
