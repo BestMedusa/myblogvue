@@ -76,7 +76,9 @@
         :page-sizes="[1, 3, 5, 7]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="totalCount" @current-change="currentChange" v-show="this.articles.length>0">
+        :total="totalCount"
+        @size-change="handleSizeChange"
+        @current-change="currentChange" v-show="this.articles.length>0">
       </el-pagination>
       </div>
     </div>
@@ -96,7 +98,6 @@
         currentPage: 1, //当前页码
         count: 0, //总记录数
         items: [],
-        pageSizes: [1,3,5],
         articles: [],
         selItems: [],
         loading: false,
@@ -134,6 +135,11 @@
         this.currentPage = currentPage;
         this.loading = true;
         this.loadBlogs(currentPage, this.pageSize);
+      },
+      //页大小改变
+      handleSizeChange(val) {
+        this.pageSize = val;
+        this.loadBlogs(this.currentPage, this.pageSize);
       },
       loadBlogs(page, count){
         var _this = this;
