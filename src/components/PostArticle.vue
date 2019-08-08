@@ -71,13 +71,15 @@
         this.loading = true;
         getRequest("/api/article/" + id).then(resp=> {
           _this.loading = false;
-          if (resp.status == 200) {
-            _this.article = resp.data;
-            var tags = resp.data.tags;
-            _this.article.dynamicTags = []
-            for (var i = 0; i < tags.length; i++) {
-              _this.article.dynamicTags.push(tags[i].tagName)
-            }
+          debugger
+          if (resp.status == 200 && resp.data.code == 2000) {
+            _this.article = resp.data.data;
+            // var tags = resp.data.tags;
+            // _this.article.dynamicTags = []
+            // for (var i = 0; i < tags.length; i++) {
+            //   _this.article.dynamicTags.push(tags[i].tagName)
+            // }
+            _this.loading = false;
           } else {
             _this.$message({type: 'error', message: '页面加载失败!'})
           }

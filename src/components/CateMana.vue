@@ -217,7 +217,7 @@
           if (json.code == 2000) {
             _this.$message({type: 'success', message: '删除成功'});
           } else {
-            _this.$message({type: 'error', message: '删除失败'});
+            _this.$message({type: 'error', message: resp.data.message});
           }
           _this.refresh();
           _this.loading = false;
