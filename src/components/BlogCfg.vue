@@ -30,12 +30,12 @@
       }
     },
     mounted: function () {
-      var _this = this;
-      getRequest("/currentUserEmail").then(resp=> {
-        if (resp.status == 200) {
-          _this.emailValidateForm.email = resp.data;
-        }
-      });
+      // var _this = this;
+      // getRequest("/currentUserEmail").then(resp=> {
+      //   if (resp.status == 200) {
+      //     _this.emailValidateForm.email = resp.data;
+      //   }
+      // });
     },
     methods: {
       submitForm(formName) {

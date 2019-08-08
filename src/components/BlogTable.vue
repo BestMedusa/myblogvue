@@ -84,7 +84,7 @@
 </template>
 
 <script>
-  import {putRequest} from '../utils/api'
+  import {deleteRequest, putRequest} from '../utils/api'
   import {getRequest} from '../utils/api'
  // import Vue from 'vue'
  // var bus = new Vue()
@@ -106,10 +106,10 @@
       }
     },
     mounted: function () {
-      var _this = this;
       this.loading = true;
       this.loadBlogs(1, this.pageSize);
       var _this = this;
+      debugger
       window.bus.$on('blogTableReload', function () {
         _this.loading = true;
         _this.loadBlogs(_this.currentPage, _this.pageSize);
@@ -144,7 +144,7 @@
         // } else {
         //   url = "/article/all?state=" + this.state + "&page=" + page + "&count=" + count + "&keywords=" + this.keywords;
         // }
-        url = `/api/article/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}&keywords=this.keywords`;
+        url = `/api/article/page?pageSize=${this.pageSize}&pageNo=${this.currentPage}&keywords=${this.keywords}`;
         getRequest(url).then(resp=> {
           debugger
           _this.loading = false;
@@ -189,20 +189,27 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          var selItems = _this.selItems;
+          var ids = '';
+          for (var i = 0; i < selItems.length; i++) {
+            ids += selItems[i].id + ",";
+          }
+
           _this.loading = true;
+          debugger
           var url = '';
           if (_this.state == -2) {
             url = "/admin/article/dustbin";
           } else {
-            url = "/article/dustbin";
+            url = "/api/article/";
           }
-          putRequest(url, {aids: _this.dustbinData, state: state}).then(resp=> {
-            if (resp.status == 200) {
+          deleteRequest(url + ids).then(resp=> {
+            if (resp.status == 200 && resp.data.code==2000) {
               var data = resp.data;
-              _this.$message({type: data.status, message: data.msg});
-              if (data.status == 'success') {
+              _this.$message({type: 'success', message: '删除成功!'});
+              // if (data.status == 'success') {
                 window.bus.$emit('blogTableReload')//通过选项卡都重新加载数据
-              }
+              // }
             } else {
               _this.$message({type: 'error', message: '删除失败!'});
             }

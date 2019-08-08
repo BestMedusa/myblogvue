@@ -116,9 +116,9 @@
             debugger
             _this.article.id = resp.data.msg;
             _this.$message({type: 'success', message: state == 0 ? '保存成功!' : '发布成功!'});
-           if (_this.from != undefined) {
+           // if (_this.from != undefined) {
             window.bus.$emit('blogTableReload')
-           }
+           // }
             _this.$router.replace({path: '/articleList'});
           }
         }, resp=> {
