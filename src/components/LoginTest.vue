@@ -38,7 +38,7 @@
         },
         rules: {
           username: [
-            {required: true, message: '请输入账号', trigger: 'blur'},
+            {required: true, message: '请输入用户名', trigger: 'blur'},
             {min: 6, max: 16, message: '长度在 6 到 16 个字符', trigger: 'blur'}
           ],
           password: [

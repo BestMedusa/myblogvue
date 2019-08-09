@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../components/LoginTest'
+import Login from '../components/Register'
 import Home from '../components/Home'
 import ArticleList from '../components/ArticleList'
 import CateMana from '../components/CateMana'
@@ -8,6 +8,7 @@ import DataCharts from '../components/DataCharts'
 import PostArticle from '../components/PostArticle'
 import UserMana from '../components/UserMana'
 import BlogDetail from '../components/BlogDetail'
+import Register from '../components/Register'
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/home',
       name: '',
       component: Home,
+      hidden: true
+    },{
+      path: '/register',
+      name: '',
+      component: Register,
       hidden: true
     }, {
       path: '/home',
