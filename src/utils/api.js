@@ -15,7 +15,8 @@ export const postRequest = (url, params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'token':localStorage.getItem("token")
     }
   });
 }
@@ -25,7 +26,8 @@ export const uploadFileRequest = (url, params) => {
     url: `${base}${url}`,
     data: params,
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data',
+      'token':localStorage.getItem("token")
     }
   });
 }
@@ -42,7 +44,8 @@ export const putRequest = (url, params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'token':localStorage.getItem("token")
     }
   });
 }
@@ -64,7 +67,8 @@ export const getRequest = (url,params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'token':localStorage.getItem("token")
     },
     url: `${base}${url}`
   });

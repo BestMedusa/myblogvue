@@ -1,6 +1,6 @@
 //更改用户状态信息
 export const userStatus=(state,user)=>{
-  if (user){
+  if (user && user != '游客'){
     state.currentUser = user
     state.isLogin = true
     state.token = '123'
@@ -12,6 +12,6 @@ export const userStatus=(state,user)=>{
     state.currentUser = null;
     state.isLogin = false;
     state.token = ''
-    localStorage.clear();
+    localStorage.removeItem("token")
   }
 }
