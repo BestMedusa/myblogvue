@@ -13,7 +13,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueResource from 'vue-resource'
 import store from './vuex/store.js'
-import global_ from './components/Constant'//引用文件
+import global_ from './components/Constant'
+//引用文件
 Vue.prototype.CONSTANT = global_; //挂载到Vue实例上面
 
 
@@ -29,25 +30,39 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false;
 window.bus = new Vue();
 /* eslint-disable no-new */
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     //这里判断用户是否登录，验证本地存储是否有token
-//     if (!localStorage.currentUser) { // 判断当前的token是否存在
-//       next({
-//         path: '/login',
-//         query: { redirect: to.fullPath }
-//       })
-//     } else {
-//       next()
-//     }
-//   } else {
-//     next() // 确保一定要调用 next()
-//   }
-// });
 new Vue({
   el: '#app',
   router,
   store,
   components: { App },
   template: '<App/>'
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+    if(localStorage.getItem('token')){ //判断本地是否存在access_token
+      next();
+    }else {
+      if(to.path === '/'){
+        next();
+      }else {
+        next({
+          path:'/'
+        })
+      }
+    }
+  }
+  else {
+    next();
+  }
+  /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
+  if(to.fullPath == "/"){
+    if(localStorage.getItem('token')){
+      next({
+        path:from.fullPath
+      });
+    }else {
+      next();
+    }
+  }
 });

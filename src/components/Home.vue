@@ -70,7 +70,7 @@
           }).then(function () {
             postRequest("/api/login/logout").then(resp=>{
               // _this.currentUserName = '游客';
-              sessionStorage.setItem('userName', '游客');
+              // sessionStorage.setItem('userName', '游客');
               _this.$store.dispatch('setUser', '游客');
               _this.$router.replace({path: '/'});
             })

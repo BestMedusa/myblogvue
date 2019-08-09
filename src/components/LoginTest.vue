@@ -1,30 +1,31 @@
 <template>
-  <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left"
-           label-width="60px" class="login-container">
-    <h3 class="login_title">系统登录</h3>
+  <div class="img1">
+    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left"
+             label-width="60px" class="login-container">
+      <h3 class="login_title">系统登录</h3>
 
-    <el-form-item label="账号" prop="username">
-      <el-input v-model="loginForm.username" autocomplete="on"></el-input>
-    </el-form-item>
+      <el-form-item label="账号" prop="username">
+        <el-input v-model="loginForm.username" autocomplete="on"></el-input>
+      </el-form-item>
 
-    <el-form-item label="密码" prop="password">
-      <el-input type="password" v-model="loginForm.password" autocomplete="on"></el-input>
-    </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" v-model="loginForm.password" autocomplete="on"></el-input>
+      </el-form-item>
 
-    <div class="box clearfix">
+      <div class="box clearfix">
         <span class="lf" @click="clearCookie"
               style="cursor: pointer;color: #f19149;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
-      <div class="rt">
-        <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
+        <div class="rt">
+          <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
+        </div>
       </div>
-    </div>
 
-    <el-form-item>
-      <el-button type="primary" @click="submitForm('loginForm')" style="width:100%;">登录</el-button>
-<!--        <el-button @click="resetForm('loginForm')">重置</el-button>-->
-    </el-form-item>
-  </el-form>
-
+      <el-form-item>
+        <el-button type="primary" @click="submitForm('loginForm')" style="width:100%;">登录</el-button>
+        <!--        <el-button @click="resetForm('loginForm')">重置</el-button>-->
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <script>
@@ -79,8 +80,8 @@
               console.log(response.data);
               if (response.data.code == 2000) {
                 sessionStorage.setItem('userName', response.data.data.userName);
-                this.$store.dispatch('setUser',response.data.data.userName);
-                this.$router.push({path: 'home',query: {user: response.data.data}});
+                this.$store.dispatch('setUser', response.data.data.userName);
+                this.$router.push({path: 'home', query: {user: response.data.data}});
                 // this.$router.push({
                 //   name: '/home',
                 //   params: {userName: self.loginForm.username, password: self.loginForm.password}
@@ -168,6 +169,7 @@
   .clearfix {
     *zoom: 1;
   }
+
   .login-container {
     border-radius: 15px;
     background-clip: padding-box;
@@ -188,5 +190,15 @@
   .login_remember {
     margin: 0px 0px 35px 0px;
     text-align: left;
+  }
+
+  .img1{
+    background: url("../assets/danya.jpg");
+    background-size: 100% 100%;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0px
   }
 </style>
