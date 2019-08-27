@@ -34,6 +34,7 @@ export default new Router({
       path: '/home',
       component: Home,
       name: '博客管理',
+      meta:{requireAuth:true},
       iconCls: 'fa fa-file-text-o',
       children: [
         {
@@ -90,6 +91,7 @@ export default new Router({
           path: '/cateMana',
           iconCls: 'fa fa-reorder',
           name: '分类管理',
+          meta:{requireAuth:true},
           component: CateMana
         }
       ]
@@ -103,6 +105,7 @@ export default new Router({
           path: '/charts',
           iconCls: 'fa fa-bar-chart',
           name: '数据统计',
+          meta:{requireAuth:true},
           component: DataCharts
         }
       ]
