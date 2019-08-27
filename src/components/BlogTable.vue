@@ -185,7 +185,7 @@
         this.$router.push({path: '/editBlog', query: {from: this.activeName,id:row.id}});
       },
       handleDelete(index, row) {
-        this.dustbinData.push(row.id+'');
+        this.dustbinData.push(row.id);
         this.deleteToDustBin(row.state);
       },
       deleteToDustBin(state){
