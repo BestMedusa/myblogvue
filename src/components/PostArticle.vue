@@ -97,7 +97,7 @@
         this.$router.go(-1)
       },
       saveBlog(state){
-        if (!(isNotNullORBlank(this.article.title, this.article.mdContent, this.article.cid))) {
+        if (!(isNotNullORBlank(this.article.title, this.article.mdContent, this.article.articleId))) {
           this.$message({type: 'error', message: '数据不能为空!'});
           return;
         }
@@ -109,7 +109,7 @@
           title: _this.article.title,
           mdContent: _this.article.mdContent,
           content: _this.$refs.md.d_render,
-          articleId: _this.article.cid,
+          articleId: _this.article.articleId,
           author: this.$store.state.currentUser,
           // state: state,
           tags: _this.article.dynamicTags
@@ -187,7 +187,6 @@
           dynamicTags: [],
           title: '',
           mdContent: '',
-          cid: ''
         }
       }
     }
