@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../components/Register'
+// import Login from '../components/Register'
+import Login from '../components/LoginTest'
 import Home from '../components/Home'
 import ArticleList from '../components/ArticleList'
 import CateMana from '../components/CateMana'

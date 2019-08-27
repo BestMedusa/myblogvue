@@ -24,6 +24,8 @@
 </template>
 
 <script>
+  import {validatePhone} from "../utils/validate";
+
   export default {
     methods: {
       login() {

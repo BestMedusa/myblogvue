@@ -1,7 +1,7 @@
 <template>
   <el-container v-loading="loading" class="post-article">
     <el-header class="header">
-      <el-select v-model="article.cid" placeholder="请选择文章栏目" style="width: 150px;">
+      <el-select v-model="article.articleId" placeholder="请选择文章栏目" style="width: 150px;">
         <el-option
           v-for="item in categories"
           :key="item.id"
@@ -61,14 +61,14 @@
 
   export default {
     mounted: function () {
-      this.getCategories();
-      var from = this.$route.query.from;
-      this.from = from;
       var _this = this;
+      _this.getCategories();
+      var from = _this.$route.query.from;
+      this.from = from;
       if (from != null && from != '' && from != undefined) {
-        var id = this.$route.query.id;
-        this.id = id;
-        this.loading = true;
+        var id = _this.$route.query.id;
+        _this.id = id;
+        _this.loading = true;
         getRequest("/api/article/" + id).then(resp=> {
           _this.loading = false;
           debugger
@@ -103,6 +103,7 @@
         }
         var _this = this;
         _this.loading = true;
+        debugger
         postRequest("/api/article/save", {
           id: _this.article.id,
           title: _this.article.title,
@@ -116,7 +117,7 @@
           _this.loading = false;
           if (resp.status == 200 && resp.data.code == '2000') {
             debugger
-            _this.article.id = resp.data.msg;
+            // _this.article.id = resp.data.data.id;
             _this.$message({type: 'success', message: state == 0 ? '保存成功!' : '发布成功!'});
            // if (_this.from != undefined) {
             window.bus.$emit('blogTableReload')
@@ -182,7 +183,7 @@
         loading: false,
         from: '',
         article: {
-          id: '-1',
+          id: '',
           dynamicTags: [],
           title: '',
           mdContent: '',
