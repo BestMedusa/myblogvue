@@ -185,7 +185,7 @@
         this.$router.push({path: '/editBlog', query: {from: this.activeName,id:row.id}});
       },
       handleDelete(index, row) {
-        this.dustbinData.push(row.id);
+        this.dustbinData.push(row.id+'');
         this.deleteToDustBin(row.state);
       },
       deleteToDustBin(state){
@@ -195,12 +195,14 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          var selItems = _this.selItems;
+          var selItems = _this.dustbinData;
           var ids = '';
           for (var i = 0; i < selItems.length; i++) {
-            ids += selItems[i].id + ",";
+            ids += selItems[i] + ",";
           }
-
+          if (ids.length > 0){
+            ids = ids.substring(0, ids.length - 1);
+          }
           _this.loading = true;
           debugger
           var url = '';

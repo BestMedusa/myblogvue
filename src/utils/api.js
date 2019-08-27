@@ -52,7 +52,10 @@ export const putRequest = (url, params) => {
 export const deleteRequest = (url) => {
   return axios({
     method: 'delete',
-    url: `${base}${url}`
+    url: `${base}${url}`,
+    headers: {
+      'token':localStorage.getItem("token")
+    }
   });
 }
 export const getRequest = (url,params) => {
