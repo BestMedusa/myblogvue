@@ -69,8 +69,11 @@
               //清空Cookie
               self.clearCookie();
             }
-            var param = {userName: self.loginForm.username, password: self.loginForm.password};
-            //json传参 后端@requestBody对象
+            var param = {
+              userName: self.loginForm.username,
+              password: self.loginForm.password
+            };
+            //json传参 后端@RequestBody对象
             // this.$http.post('/api/login/login', JSON.stringify(param),{
             //   headers: {
             //     'Content-Type':'application/json;charset=UTF-8'

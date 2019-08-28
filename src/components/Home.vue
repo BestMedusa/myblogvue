@@ -10,7 +10,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="sysMsg">系统消息</el-dropdown-item>
             <el-dropdown-item command="MyArticle">我的文章</el-dropdown-item>
-            <el-dropdown-item command="MyHome">个人主页</el-dropdown-item>
+            <el-dropdown-item command="MyHome">GitHub</el-dropdown-item>
             <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -79,6 +79,9 @@
             //取消
           })
         }
+        if (command == 'MyHome'){
+          window.location.href="https://github.com/JarvanBest";
+        }
       }
     },
     mounted: function () {
@@ -111,7 +114,7 @@
   }
 
   .el-header {
-    background-color: #20a0ff;
+    background-color: #333a4b;
     color: #333;
     text-align: center;
     display: flex;
@@ -130,7 +133,8 @@
   }
 
   .home_title {
-    color: #fff;
+    /*background-color: #f1f8ff;*/
+    color: rgba(60, 34, 194, 0.99);
     font-size: 22px;
     display: inline;
   }

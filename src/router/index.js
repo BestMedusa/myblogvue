@@ -49,6 +49,7 @@ export default new Router({
           name: '发表博客',
           component: PostArticle,
           meta: {
+            requireAuth:true,
             keepAlive: false
           }
         }, {
@@ -78,7 +79,9 @@ export default new Router({
           path: '/user',
           iconCls: 'fa fa-user-o',
           name: '用户管理',
-          meta:{requireAuth:true},
+          meta:{
+            requireAuth:true
+          },
           component: UserMana
         }
       ]
