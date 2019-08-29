@@ -6,7 +6,7 @@
         <el-input v-model="user.name" placeholder="请输入用户名"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="user.password" placeholder="请输入密码"></el-input>
+        <el-input v-model="user.password" show-password placeholder="请输入密码"></el-input>
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
         <el-input v-model="user.phone" placeholder="请输入手机号"></el-input>
@@ -89,7 +89,6 @@
             this.$http.post('/api/register/register', param).then((res) => {
               console.log(res.data);
               if (res.status == 200 && res.data.code == 2000) {
-                _this.loading = false;
                 this.$router.push({path: '/', query: {user: res.data}});
               } else {
                 _this.$alert(res.data.message, '注册失败!');
@@ -99,7 +98,6 @@
               _this.loading = false;
               _this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
             });
-            this.$router.replace('/')
           } else {
             return false
           }
