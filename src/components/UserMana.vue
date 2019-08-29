@@ -2,7 +2,7 @@
   <div v-loading="loading">
     <div style="margin-top: 10px;display: flex;justify-content: center">
       <el-input
-        placeholder="默认展示部分用户，可以通过用户名搜索用户..."
+        placeholder="默认展示部分用户，可以通过用户名或手机号搜索用户..."
         prefix-icon="el-icon-search"
         v-model="keywords" style="width: 400px" size="small">
       </el-input>
