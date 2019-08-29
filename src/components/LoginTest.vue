@@ -17,6 +17,7 @@
               style="cursor: pointer;color: #f19149;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
         <div class="rt">
           <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
+          <span class="to-register" @click="register" style="cursor: pointer;"><b>立即注册</b></span>
         </div>
       </div>
 
@@ -135,6 +136,9 @@
       //清除cookie
       clearCookie: function () {
         this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+      },
+      register: function () {
+        this.$router.push({path: 'register'});
       }
     }
   }
@@ -160,6 +164,12 @@
 
   .rf {
     float: right;
+  }
+  .to-register {
+    /*float: right;*/
+    font-size: 13px;
+    color: #6900df;
+    .pointer: cursor;
   }
 
   .clearfix:after {
