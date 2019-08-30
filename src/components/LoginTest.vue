@@ -1,31 +1,36 @@
 <template>
   <div class="img1">
-    <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left"
-             label-width="60px" class="login-container">
-      <h3 class="login_title">系统登录</h3>
+    <div>
+      <el-form :model="loginForm" :rules="rules" ref="loginForm" label-position="left"
+               label-width="60px" class="login-container">
+        <h3 class="login_title">系统登录</h3>
 
-      <el-form-item label="账号" prop="username">
-        <el-input v-model="loginForm.username" autocomplete="on"></el-input>
-      </el-form-item>
+        <el-form-item label="账号" prop="username">
+          <el-input v-model="loginForm.username" autocomplete="on"></el-input>
+        </el-form-item>
 
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="loginForm.password" autocomplete="on"></el-input>
-      </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="loginForm.password" autocomplete="on"></el-input>
+        </el-form-item>
 
-      <div class="box clearfix">
-        <span class="lf" @click="clearCookie"
-              style="cursor: pointer;color: #f19149;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>
-        <div class="rt">
-          <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>
-          <span class="to-register" @click="register" style="cursor: pointer;"><b>立即注册</b></span>
+        <div class="box clearfix">
+<!--        <span class="lf" @click="" style="cursor: pointer;color: #f19149;font-size: 0.75rem;margin-left: 5px;">忘记密码？</span>-->
+          <div class="rt">
+<!--            <el-checkbox v-model="checked" style="color:#a0a0a0;">一周内自动登录</el-checkbox>-->
+<!--            <span class="to-register" @click="register" style="cursor: pointer;color: #1980ff;">立即注册</span>-->
+          </div>
         </div>
-      </div>
 
-      <el-form-item>
-        <el-button type="primary" @click="submitForm('loginForm')" style="width:100%;">登录</el-button>
-        <!--        <el-button @click="resetForm('loginForm')">重置</el-button>-->
-      </el-form-item>
-    </el-form>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('loginForm')" style="width:100%;">登录</el-button>
+        </el-form-item>
+        <div>
+          <p class="register">
+            <span class="gray-text" style="font-size: 13px;color: #999999;" > 没有账号？ </span><span class="to-register" @click="register">免费注册</span>
+          </p>
+        </div>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -53,7 +58,7 @@
     },
     //页面加载调用获取cookie值
     mounted() {
-      this.getCookie();
+
     },
     methods: {
       submitForm(formName) {
@@ -61,36 +66,16 @@
           if (valid) {
             const self = this;
             self.loading = true;
-            //判断复选框是否被勾选 勾选则调用配置cookie方法
-            if (self.checked == true) {
-              //传入账号名，密码，和保存天数3个参数
-              self.setCookie(self.loginForm.username, self.loginForm.password, 7);
-            } else {
-              console.log("清空Cookie");
-              //清空Cookie
-              self.clearCookie();
-            }
             var param = {
               userName: self.loginForm.username,
               password: self.loginForm.password
             };
-            //json传参 后端@RequestBody对象
-            // this.$http.post('/api/login/login', JSON.stringify(param),{
-            //   headers: {
-            //     'Content-Type':'application/json;charset=UTF-8'
-            //   }
-            // }).then((response) => {
             this.$http.post('/api/login/login', param).then((response) => {
               console.log(response.data);
               if (response.status == 200 && response.data.code == 2000) {
-                // sessionStorage.setItem('userName', response.data.data.userName);
                 this.$store.dispatch('setUser', response.data.data.userName);
                 this.$router.push({path: 'home', query: {user: response.data.data}});
-                localStorage.setItem("token",response.data.ticket)
-                // this.$router.push({
-                //   name: '/home',
-                //   params: {userName: self.loginForm.username, password: self.loginForm.password}
-                // });
+                localStorage.setItem("token", response.data.ticket)
               } else {
                 self.$alert('用户名或密码错误!', '登录失败!');
               }
@@ -98,44 +83,12 @@
             }, (response) => {
               self.loading = false;
               self.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
-              // console.log("error");
-              // error callback
             });
           } else {
             console.log('error submit!!');
             return false;
           }
         });
-      },
-      //设置cookie
-      setCookie(c_name, c_pwd, exdays) {
-        var exdate = new Date(); //获取时间
-        exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
-        //字符串拼接cookie
-        window.document.cookie = "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
-        window.document.cookie = "password" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
-      },
-      //读取cookie
-      getCookie: function () {
-        if (document.cookie.length > 0) {
-          var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
-          for (var i = 0; i < arr.length; i++) {
-            var arr2 = arr[i].split('='); //再次切割
-            //判断查找相对应的值
-            if (arr2[0] == 'userName') {
-              //  console.log(arr2[1])
-              this.loginForm.username = arr2[1]; //保存到保存数据的地方
-            } else if (arr2[0] == 'password') {
-              // console.log(arr2[1])
-              this.loginForm.password = arr2[1];
-            }
-          }
-          this.checked = true;
-        }
-      },
-      //清除cookie
-      clearCookie: function () {
-        this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
       },
       register: function () {
         this.$router.push({path: 'register'});
@@ -146,12 +99,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .login {
-    min-width: 350px;
-    width: 25%;
-    margin: auto;
+  .register{
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
   }
-
   .lf {
     float: left;
   }
@@ -162,14 +114,10 @@
     width: 30%;
   }
 
-  .rf {
-    float: right;
-  }
   .to-register {
-    /*float: right;*/
+    cursor:pointer;
     font-size: 13px;
-    color: #6900df;
-    .pointer: cursor;
+    color: #1980ff;
   }
 
   .clearfix:after {
@@ -201,12 +149,7 @@
     color: #505458;
   }
 
-  .login_remember {
-    margin: 0px 0px 35px 0px;
-    text-align: left;
-  }
-
-  .img1{
+  .img1 {
     background: url("../assets/danya.jpg");
     background-size: 100% 100%;
     height: 100%;
