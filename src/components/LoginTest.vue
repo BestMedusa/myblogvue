@@ -150,7 +150,7 @@
   }
 
   .img1 {
-    background: url("../assets/danya.jpg");
+    background: url("../assets/small.jpg");
     background-size: 100% 100%;
     height: 100%;
     position: fixed;
