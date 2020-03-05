@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>动态切换</title>
+          <link rel="stylesheet" href="./dist/css/swiper.min.css">
+          <style type="text/css">
+  * {
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+  }
+
+  .warp {
+    width: 100%;
+    height: 100vh;
+    background: white;
+  }
+
+  ul {
+    display: -webkit-box;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+
+  ul>li {
+    width: 62.5px;
+    text-align: center;
+    display: inline-block;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    height: 50px;
+    line-height: 50px;
+    border: 1px solid #c3c3c3;
+    text-align: center;
+  }
+
+  .navList {
+    overflow: hidden;
+  }
+
+  .swiper-wrapper>div:nth-child(1) {
+    height: 150px;
+    line-height: 150px;
+    background: pink;
+    text-align: center;
+  }
+
+  .swiper-wrapper>div:nth-child(2) {
+    height: 150px;
+    line-height: 150px;
+    background: blanchedalmond;
+    text-align: center;
+  }
+
+  .swiper-wrapper>div:nth-child(3) {
+    height: 150px;
+    line-height: 150px;
+    background: seagreen;
+    text-align: center;
+  }
+
+  .swiper-wrapper>div:nth-child(4) {
+    height: 150px;
+    line-height: 150px;
+    background: blue;
+    text-align: center;
+  }
+
+  .swiper-wrapper>div:nth-child(5) {
+    height: 150px;
+    line-height: 150px;
+    background: lawngreen;
+    text-align: center;
+  }
+  .swiper-wrapper>div:nth-child(6) {
+    height: 150px;
+    line-height: 150px;
+    background: purple;
+    text-align: center;
+  }
+  .myColor {
+    background: turquoise;
+    color: white;
+  }
+          </style>
+      </head>
+
+    <body>
+        <div id="lao" class="warp">
+              <!--导航-->
+              <div class="navList">
+                  <ul>
+                      <li :class="{myColor:index==isActive}" @click="liseGo(index)" v-for="(myliebiaoList,index) in myList">
+                          {{myliebiaoList.name}}
+                      </li>
+                  </ul>
+              </div>
+
+              <!--内容-->
+              <div class="mainContent">
+                  <div class="swiper-container">
+                      <div class="swiper-wrapper">
+                          <div v-for="lunbo in myContent" class="swiper-slide">{{lunbo.name}}</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    </body>
+
+    <script src="./dist/js/vue.js"></script>
+    <script src="./dist/js/swiper.min.js"></script>
+
+</html>
+
+<script type="text/javascript">
+  var vm = new Vue({
+    el: '#lao',
+    data: {
+      mySwiper: '',
+      isActive: 0,
+      age: '',
+      msg: '啊哈哈',
+      myList: [
+        {
+          name: '吃'
+        },
+        {
+          name: '大'
+        },
+        {
+          name: '白'
+        },
+        {
+          name: '菜'
+        },
+        {
+          name: '的'
+        },
+        {
+          name: '熊'
+        }
+      ], //存放类型列表
+      myContent: [
+        {
+          name: '吃'
+        },
+        {
+          name: '大'
+        },
+        {
+          name: '白'
+        },
+        {
+          name: '菜'
+        },
+        {
+          name: '的'
+        },
+        {
+          name: '熊'
+        }
+      ] //存放内容列表
+    },
+    methods: {
+      liseGo(index) {
+        this.isActive = index;
+        this.mySwiper.slideTo(index, 500, false); //切换到第index个slide，速度为0.5秒
+      },
+      //封装swiper
+      getSwiper() {
+        var that = this;
+        // swiper-container  class名称
+        this.mySwiper = new Swiper('.swiper-container', {
+          autoplay: false, //可选选项，自动滑动
+          on: {
+            slideChangeTransitionEnd: function() {
+              // this指向的是当前的swiper实例，that指向的是vue实例
+              that.isActive = this.activeIndex; //切换结束时，告诉我现在是第几个slide
+            },
+          },
+        })
+
+      }
+    },
+    mounted() {
+      // 初始化swiper
+      this.getSwiper();
+    }
+  })
+</script>
